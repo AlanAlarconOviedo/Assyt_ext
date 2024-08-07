@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Assyst AutoExtension by Alan and Mao",
+  "version": "4.0",
+  "description": "Superpower Assyst",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://ithelp.cintas.com/assystweb/application.do*"],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://convergetp.webhook.office.com"
+  }
+}

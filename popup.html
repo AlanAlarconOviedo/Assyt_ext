@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      width: 300px;
+      background-color: black;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      color: white; /* Añadir color de texto blanco para mejorar la legibilidad */
+    }
+    .button-container {
+      display: flex;
+      flex-wrap: wrap; 
+    }
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px; /* Añadir margen superior para separar los inputs de los botones */
+    }
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      color: white;
+      background-color: rgba(255, 255, 255, 0.2); 
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.8s, color 0.8s, box-shadow 0.8s; 
+      backdrop-filter: blur(5px); 
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    button:hover {
+      background-color: rgba(255, 255, 255, 0.8); 
+      color: black; 
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.4); 
+    }
+    input, textarea {
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background-color: rgba(255, 255, 255, 0.1); /* Añadir fondo para inputs */
+      color: white;
+    }
+    .btnBlue {
+      background-color: rgb(4, 24, 176);
+      border: none;
+    }
+
+    .output-container {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+    .output-container textarea {
+      height: 100px; /* Ajustar la altura del textarea de salida */
+    }
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button id="btnPass">Password Reset</button>
+    <button id="btnFalcon">Install Falcon</button>
+    <button id="btnAS400pr">Falcon Pwd Reset</button>
+    <button id="btnAS400unlock">Falcon Unlock</button>
+    <button id="btnCIPCmanual">CIPC Manual</button>
+    <button id="btnPartner">Partner Connect</button>
+    <button id="btnVerizon">Verizon</button>
+    <button id="btnBitlocker Key">Bitlocker Key</button>
+    <button id="btnMap Shared drive">Map Shared drive</button>
+    <button id="btnLocal Printer">Local Printer</button>
+    <button id="btnNetwork Printer">Network Printer</button>
+  </div>
+  <div class="input-container">
+    <input type="text" id="serialNumber" placeholder="Device Serial Number" />
+    <textarea id="reason" placeholder="Reason for Request"></textarea>
+  </div>
+  <div class="output-container">
+    <textarea id="output" placeholder="LAPS Info will appear here..."></textarea>
+  </div>
+  <button id="btnSendTeams" class="btnBlue">Send Teams Request</button>
+  <button id="btnExtractSendLAPS" class="btnBlue">Extract LAPS Request</button>
+  <script src="popup.js"></script>
+</body>
+</html>
