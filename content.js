@@ -96,6 +96,162 @@ circleButton.addEventListener("click", function() {
         circleButton.style.transform = "rotate(0deg)";
     }
 });
+
+    / Función para cargar templates
+function loadTemplates() {
+    chrome.storage.sync.get(['templates'], function(result) {
+        let templates = result.templates || [];
+        menuContainer.innerHTML = ""; // Limpiar el contenido actual del menú
+
+        // Agregar botones de gestión
+        let addButton = document.createElement("button");
+        addButton.innerHTML = "Add New Template";
+        addButton.style.padding = "10px";
+        addButton.style.border = "none";
+        addButton.style.borderRadius = "5px";
+        addButton.style.cursor = "pointer";
+        addButton.style.backgroundColor = "green";
+        addButton.style.color = "white";
+        addButton.style.marginBottom = "10px";
+        addButton.addEventListener("click", function() {
+            addTemplate();
+        });
+        menuContainer.appendChild(addButton);
+
+        templates.forEach(function(template, index) {
+            let buttonContainer = document.createElement("div");
+            buttonContainer.style.display = "flex";
+            buttonContainer.style.justifyContent = "space-between";
+            buttonContainer.style.alignItems = "center";
+
+            let button = document.createElement("button");
+            button.innerHTML = template.name;
+            button.style.flex = "1";
+            button.style.padding = "10px";
+            button.style.border = "none";
+            button.style.borderRadius = "5px";
+            button.style.cursor = "pointer";
+            button.style.transition = "background-color 0.3s, color 0.3s";
+            
+            button.onmouseover = function() {
+                button.style.backgroundColor = "black";
+                button.style.color = "white";
+            };
+            button.onmouseout = function() {
+                button.style.backgroundColor = "white";
+                button.style.color = "black";
+            };
+
+            // Agregar evento al botón para usar el template
+            button.addEventListener("click", function() {
+                insertTextInActiveTab(template.content);
+            });
+
+            buttonContainer.appendChild(button);
+
+            // Botón para eliminar template
+            let removeButton = document.createElement("button");
+            removeButton.innerHTML = "X";
+            removeButton.style.padding = "10px";
+            removeButton.style.border = "none";
+            removeButton.style.borderRadius = "5px";
+            removeButton.style.cursor = "pointer";
+            removeButton.style.backgroundColor = "red";
+            removeButton.style.color = "white";
+            removeButton.addEventListener("click", function() {
+                removeTemplate(index);
+            });
+
+            buttonContainer.appendChild(removeButton);
+
+            // Botón para actualizar template
+            let updateButton = document.createElement("button");
+            updateButton.innerHTML = "U";
+            updateButton.style.padding = "10px";
+            updateButton.style.border = "none";
+            updateButton.style.borderRadius = "5px";
+            updateButton.style.cursor = "pointer";
+            updateButton.style.backgroundColor = "blue";
+            updateButton.style.color = "white";
+            updateButton.addEventListener("click", function() {
+                updateTemplate(index);
+            });
+
+            buttonContainer.appendChild(updateButton);
+
+            menuContainer.appendChild(buttonContainer);
+        });
+    });
+}
+
+// Función para añadir un nuevo template
+function addTemplate() {
+    let templateName = prompt("Enter a name for your new template:");
+    let templateContent = prompt("Enter the content for your new template:");
+    chrome.storage.sync.get(['templates'], function(result) {
+        let templates = result.templates || [];
+        templates.push({ name: templateName, content: templateContent });
+        chrome.storage.sync.set({ templates: templates }, function() {
+            alert('Template added successfully!');
+            loadTemplates(); // Recargar los templates
+        });
+    });
+}
+
+// Función para eliminar un template
+function removeTemplate(index) {
+    chrome.storage.sync.get(['templates'], function(result) {
+        let templates = result.templates || [];
+        templates.splice(index, 1);
+        chrome.storage.sync.set({ templates: templates }, function() {
+            alert('Template removed successfully!');
+            loadTemplates(); // Recargar los templates
+        });
+    });
+}
+
+// Función para actualizar un template
+function updateTemplate(index) {
+    chrome.storage.sync.get(['templates'], function(result) {
+        let templates = result.templates || [];
+        let template = templates[index];
+        let newName = prompt("Enter a new name for the template:", template.name);
+        let newContent = prompt("Enter new content for the template:", template.content);
+        templates[index] = { name: newName, content: newContent };
+        chrome.storage.sync.set({ templates: templates }, function() {
+            alert('Template updated successfully!');
+            loadTemplates(); // Recargar los templates
+        });
+    });
+}
+
+// Función para insertar texto en la pestaña activa
+function insertTextInActiveTab(templateContent) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+        chrome.scripting.executeScript({
+            target: { tabId: tabs[0].id },
+            function: insertTextAndModifyCSS,
+            args: [templateContent]
+        });
+    });
+}
+
+function insertTextAndModifyCSS(templateContent) {
+    var textToInsert = templateContent;
+    var editArea = document.querySelector("#editArea");
+    if (editArea) {
+        editArea.innerText = textToInsert;
+        console.log("Texto insertado correctamente en el div");
+
+        var elements = document.querySelectorAll(".tundra .restClient .axios-edit-area-autocomplete-container .axios-edit-area-autocomplete");
+        elements.forEach(function(element) {
+            element.style.height = "400px";
+        });
+        console.log("CSS modificado correctamente");
+    } else {
+        console.error("No se encontró el div con el selector proporcionado.");
+    }
+}
     
     // Agregar el botón al body
     document.body.appendChild(button);
