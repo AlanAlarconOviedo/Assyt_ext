@@ -3,6 +3,41 @@
 window.addEventListener("load", function() {
     console.log("DOM completamente cargado y analizado");
 
+
+// Crear el círculo flotante
+var circleButton = document.createElement("div");
+circleButton.style.position = "fixed";
+circleButton.style.bottom = "20px";
+circleButton.style.left = "20px";
+circleButton.style.width = "50px";
+circleButton.style.height = "50px";
+circleButton.style.backgroundColor = "black";
+circleButton.style.borderRadius = "50%";
+circleButton.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+circleButton.style.cursor = "pointer";
+circleButton.style.zIndex = 1000;
+circleButton.style.display = "flex";
+circleButton.style.justifyContent = "center";
+circleButton.style.alignItems = "center";
+circleButton.style.color = "white";
+circleButton.innerHTML = "+";
+circleButton.style.fontSize = "24px";
+circleButton.style.transition = "background-color 0.3s, transform 0.3s";
+
+// Efecto hover
+circleButton.onmouseover = function() {
+    circleButton.style.backgroundColor = "gray";
+};
+circleButton.onmouseout = function() {
+    circleButton.style.backgroundColor = "black";
+};
+
+// Agregar el círculo al body
+document.body.appendChild(circleButton);
+
+
+    
+
     // Crear un botón
     var button = document.createElement("button");
     button.innerHTML = "Auto Fill";
