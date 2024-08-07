@@ -67,6 +67,36 @@ document.body.appendChild(circleButton);
         button.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.2)";
     };
 
+
+    // Crear el contenedor del menú desplegable
+var menuContainer = document.createElement("div");
+menuContainer.style.position = "fixed";
+menuContainer.style.bottom = "80px";
+menuContainer.style.left = "20px";
+menuContainer.style.width = "200px";
+menuContainer.style.backgroundColor = "white";
+menuContainer.style.borderRadius = "10px";
+menuContainer.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+menuContainer.style.zIndex = 1000;
+menuContainer.style.padding = "10px";
+menuContainer.style.display = "none";
+menuContainer.style.flexDirection = "column";
+menuContainer.style.gap = "10px";
+
+// Agregar el contenedor del menú al body
+document.body.appendChild(menuContainer);
+
+// Mostrar/Ocultar el menú al hacer clic en el círculo
+circleButton.addEventListener("click", function() {
+    if (menuContainer.style.display === "none") {
+        menuContainer.style.display = "flex";
+        circleButton.style.transform = "rotate(45deg)";
+    } else {
+        menuContainer.style.display = "none";
+        circleButton.style.transform = "rotate(0deg)";
+    }
+});
+    
     // Agregar el botón al body
     document.body.appendChild(button);
     console.log("Botón agregado al documento");
